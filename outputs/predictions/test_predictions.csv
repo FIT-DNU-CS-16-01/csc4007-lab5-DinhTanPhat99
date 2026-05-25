@@ -1,0 +1,9 @@
+text,label,pred_label,prob_negative,prob_positive
+The film tries hard but never becomes interesting.,0,0,0.503642201423645,0.4963577389717102
+The movie is forgettable and poorly paced.,0,0,0.5036597847938538,0.49634015560150146
+"The film is not perfect, but it is honest and affecting.",1,0,0.5036414265632629,0.4963585436344147
+The final act is powerful and surprisingly moving.,1,0,0.5036558508872986,0.49634411931037903
+The direction is careless and the story is confusing.,0,0,0.5036443471908569,0.4963556230068207
+I loved the acting and the soundtrack was beautiful.,1,0,0.5036535859107971,0.49634644389152527
+Nothing about this movie felt original or engaging.,0,0,0.5036646723747253,0.49633532762527466
+A wonderful movie with memorable characters and a moving ending.,1,0,0.503663182258606,0.49633675813674927

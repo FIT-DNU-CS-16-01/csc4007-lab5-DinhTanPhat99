@@ -1,0 +1,2 @@
+source_lab,model,fine_tuning_mode,accuracy,macro_f1,trainable_params,notes
+Lab 5,hf-internal-testing/tiny-random-distilbert,full_finetune,0.5,0.3333333333333333,87483,Transformer fine-tuning result

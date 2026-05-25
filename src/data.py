@@ -2,9 +2,45 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Dict
+import tarfile
+import urllib.request
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
+
+IMDB_HUGGINGFACE_URL = 'https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz'
+IMDB_ARCHIVE_NAME = 'aclImdb_v1.tar.gz'
+
+
+def _ensure_dir(path: Path) -> Path:
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def _download_imdb_archive(cache_dir: Path) -> Path:
+    cache_dir = _ensure_dir(cache_dir)
+    archive_path = cache_dir / IMDB_ARCHIVE_NAME
+    if archive_path.exists():
+        return archive_path
+    print(f'[INFO] Downloading IMDB dataset archive to {archive_path}')
+    urllib.request.urlretrieve(IMDB_HUGGINGFACE_URL, archive_path)
+    return archive_path
+
+
+def _load_imdb_from_archive(archive_path: Path, split: str) -> pd.DataFrame:
+    rows = []
+    with tarfile.open(archive_path, 'r:gz') as tar:
+        prefix = f'aclImdb/{split}/'
+        for member in tar.getmembers():
+            if member.isfile() and member.name.startswith(prefix) and member.name.endswith('.txt'):
+                label = 1 if '/pos/' in member.name else 0
+                with tar.extractfile(member) as fp:
+                    if fp is None:
+                        continue
+                    text = fp.read().decode('utf-8', errors='ignore')
+                rows.append({'text': text, 'label': label})
+    return pd.DataFrame(rows)
+
 
 
 def _normalize_label(value):
@@ -46,12 +82,15 @@ def _limit_rows(df: pd.DataFrame, max_rows: int | None, seed: int) -> pd.DataFra
 def load_imdb(max_rows: int | None = None, seed: int = 42, val_size: float = 0.1) -> Dict[str, pd.DataFrame]:
     try:
         from datasets import load_dataset
-    except ImportError as exc:
-        raise ImportError('Cần cài thư viện datasets: pip install datasets') from exc
-
-    ds = load_dataset('imdb')
-    train_df = pd.DataFrame(ds['train'])[['text', 'label']]
-    test_df = pd.DataFrame(ds['test'])[['text', 'label']]
+        ds = load_dataset('imdb')
+        train_df = pd.DataFrame(ds['train'])[['text', 'label']]
+        test_df = pd.DataFrame(ds['test'])[['text', 'label']]
+    except Exception as exc:
+        print(f'[WARN] Không thể tải IMDB bằng datasets: {exc}')
+        cache_dir = Path('data/raw')
+        archive_path = _download_imdb_archive(cache_dir)
+        train_df = _load_imdb_from_archive(archive_path, 'train')
+        test_df = _load_imdb_from_archive(archive_path, 'test')
 
     if max_rows is not None:
         # Use subsets for fast local runs. Test uses a smaller but still balanced subset.

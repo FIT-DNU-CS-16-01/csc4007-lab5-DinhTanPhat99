@@ -1,0 +1,63 @@
+{
+  "dataset": "local_csv",
+  "dataset_path": "data/raw/sample_imdb_tiny.csv",
+  "seed": 42,
+  "device": "cpu",
+  "model_name": "hf-internal-testing/tiny-random-distilbert",
+  "fine_tuning_mode": "full_finetune",
+  "max_length": 64,
+  "batch_size": 4,
+  "epochs_requested": 1,
+  "epochs_trained": 1,
+  "lr": 5e-05,
+  "weight_decay": 0.01,
+  "warmup_ratio": 0.06,
+  "grad_accum_steps": 1,
+  "freeze_encoder": false,
+  "unfreeze_last_n_layers": 0,
+  "total_params": 87483,
+  "trainable_params": 87483,
+  "lora_enabled": false,
+  "splits": {
+    "train": 25,
+    "val": 7,
+    "test": 8
+  },
+  "tokenization_audit": {
+    "tokenizer_name": "hf-internal-testing/tiny-random-distilbert",
+    "max_length": 64,
+    "sample_size_for_length_audit": 25,
+    "train_rows": 25,
+    "val_rows": 7,
+    "test_rows": 8,
+    "label_distribution_train": {
+      "1": 13,
+      "0": 12
+    },
+    "token_length_min": 33,
+    "token_length_mean": 45.36,
+    "token_length_median": 46.0,
+    "token_length_p90": 52.2,
+    "token_length_p95": 56.999999999999986,
+    "token_length_max": 59,
+    "truncated_count_estimate": 0,
+    "truncated_rate_estimate": 0.0,
+    "empty_text_count_train": 0
+  },
+  "val": {
+    "loss": 0.6925691366195679,
+    "accuracy": 0.5714285714285714,
+    "macro_f1": 0.36363636363636365,
+    "precision_macro": 0.2857142857142857,
+    "recall_macro": 0.5
+  },
+  "test": {
+    "loss": 0.6931746602058411,
+    "accuracy": 0.5,
+    "macro_f1": 0.3333333333333333,
+    "precision_macro": 0.25,
+    "recall_macro": 0.5
+  },
+  "generated_at": "2026-05-25T15:35:30.420567+00:00",
+  "notes": "Raw text -> pretrained tokenizer -> pretrained Transformer -> classification head. Best checkpoint selected by validation macro-F1."
+}

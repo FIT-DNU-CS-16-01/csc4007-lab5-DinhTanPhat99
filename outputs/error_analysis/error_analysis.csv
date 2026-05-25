@@ -1,0 +1,5 @@
+text,label,pred_label,prob_negative,prob_positive,confidence
+A wonderful movie with memorable characters and a moving ending.,1,0,0.503663182258606,0.49633675813674927,0.503663182258606
+The final act is powerful and surprisingly moving.,1,0,0.5036558508872986,0.49634411931037903,0.5036558508872986
+I loved the acting and the soundtrack was beautiful.,1,0,0.5036535859107971,0.49634644389152527,0.5036535859107971
+"The film is not perfect, but it is honest and affecting.",1,0,0.5036414265632629,0.4963585436344147,0.5036414265632629
